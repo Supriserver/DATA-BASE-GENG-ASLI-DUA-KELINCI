@@ -1,0 +1,330 @@
+<!DOCTYPE html>  <html lang="id">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Geng ASLI DUA KELINCI</title>  
+    <style>  
+        * {  
+            box-sizing: border-box;  
+            margin: 0;  
+            padding: 0;  
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }  
+        body {  
+            background-color: #1a1a1a;  
+            color: #fff;  
+            padding: 20px;  
+        }  
+        .container {  
+            max-width: 900px;  
+            margin: auto;  
+            background: #2a2a2a;  
+            padding: 20px;  
+            border-radius: 8px;  
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);  
+        }  
+        h1, h2 {  
+            text-align: center;  
+            margin-bottom: 20px;  
+            color: #e74c3c;  
+        }  
+        nav {  
+            display: flex;  
+            justify-content: center;  
+            gap: 10px;  
+            margin-bottom: 20px;  
+            flex-wrap: wrap;  
+        }  
+        nav button {  
+            background: #333;  
+            color: #fff;  
+            border: 1px solid #555;  
+            padding: 10px 20px;  
+            cursor: pointer;  
+            border-radius: 4px;  
+        }  
+        nav button:hover {  
+            background: #e74c3c;  
+        }  
+        .section {  
+            display: none;  
+        }  
+        .active {  
+            display: block;  
+        }  
+        form {  
+            display: flex;  
+            flex-direction: column;  
+            gap: 12px;  
+            max-width: 400px;  
+            margin: auto;  
+        }  
+        input, select, button {  
+            padding: 10px;  
+            border-radius: 4px;  
+            border: 1px solid #444;  
+            background: #333;  
+            color: #fff;  
+        }  
+        button.submit-btn {  
+            background: #e74c3c;  
+            border: none;  
+            font-weight: bold;  
+            cursor: pointer;  
+            margin-top: 10px;  
+        }  
+        button.submit-btn:hover {  
+            background: #c0392b;  
+        }  
+        table {  
+            width: 100%;  
+            border-collapse: collapse;  
+            margin-top: 20px;  
+        }  
+        th, td {  
+            border: 1px solid #444;  
+            padding: 10px;  
+            text-align: center;  
+        }  
+        th {  
+            background-color: #e74c3c;  
+        }  
+        .info-box {  
+            background: #333;  
+            padding: 15px;  
+            border-left: 4px solid #e74c3c;  
+            margin-bottom: 20px;  
+        }  
+    </style>  
+</head>  
+<body>  <div class="container">  
+    <h1>MEMBERSHIP - ASLI DUA KELINCI</h1>  <!-- Navigasi Menu -->  
+<nav>  
+    <button onclick="showSection('home')">Beranda</button>  
+    <button onclick="showSection('register')">Register / Daftar</button>  
+    <button onclick="showSection('login')">Login</button>  
+    <button onclick="showSection('admin')" id="adminNav" style="display:none;">Dashboard Admin</button>  
+    <button onclick="logout()" id="logoutBtn" style="display:none; background:#555;">Logout</button>  
+</nav>  
+
+<!-- Halaman Utama (Beranda) -->  
+<div id="home" class="section active">  
+    <h2>Daftar Anggota Geng</h2>  
+    <table>  
+        <thead>  
+            <tr>  
+                <th>Nama</th>  
+                <th>ID Game</th>  
+                <th>Role</th>  
+            </tr>  
+        </thead>  
+        <tbody id="memberList">  
+            <!-- Data member muncul di sini -->  
+        </tbody>  
+    </table>  
+</div>  
+
+<!-- Halaman Register -->  
+<div id="register" class="section">  
+    <h2>Form Pendaftaran Member Baru</h2>  
+    <div class="info-box">  
+        <p>Data pendaftaran akan dikirim ke WhatsApp Admin (089501019250) untuk verifikasi.</p>  
+    </div>  
+    <form onsubmit="handleRegister(event)">  
+        <label>Nama Lengkap:</label>  
+        <input type="text" id="regName" required placeholder="Masukkan Nama Lengkap">  
+          
+        <label>ID Game (Digunakan untuk ID Login):</label>  
+        <input type="text" id="regGameId" required placeholder="Masukkan ID Game">  
+          
+        <label>Password Akun:</label>  
+        <input type="password" id="regPassword" required placeholder="Buat Password Akun Anda">  
+          
+        <label>Nomor WhatsApp:</label>  
+        <input type="tel" id="regWa" required placeholder="Contoh: 089501019250">  
+          
+        <button type="submit" class="submit-btn">Daftar & Kirim via WhatsApp</button>  
+    </form>  
+</div>  
+
+<!-- Halaman Login -->  
+<div id="login" class="section">  
+    <h2>Login Akun</h2>  
+    <form onsubmit="handleLogin(event)">  
+        <label>ID (Username Admin / ID Game Member):</label>  
+        <input type="text" id="loginUser" required placeholder="ID Admin atau ID Game">  
+          
+        <label>Password:</label>  
+        <input type="password" id="loginPass" required placeholder="Masukkan Password">  
+          
+        <button type="submit" class="submit-btn">Login</button>  
+    </form>  
+    <br>  
+    <div class="info-box" style="font-size: 12px;">  
+        <strong>Akses Admin Khusus:</strong><br>  
+        • ID Admin: <code>omsuprireal666</code><br>  
+        • Password: <code>Gyan120325.</code>  
+    </div>  
+</div>  
+
+<!-- Dashboard Admin -->  
+<div id="admin" class="section">  
+    <h2>Kelola Role Member (Admin)</h2>  
+    <table>  
+        <thead>  
+            <tr>  
+                <th>Nama</th>  
+                <th>ID Game</th>  
+                <th>WhatsApp</th>  
+                <th>Role Saat Ini</th>  
+                <th>Ubah Role</th>  
+            </tr>  
+        </thead>  
+        <tbody id="adminMemberList">  
+            <!-- Data khusus admin -->  
+        </tbody>  
+    </table>  
+</div>
+
+</div>  <script>  
+    // Data Member Awal  
+    let members = [  
+        { id: 1, name: "Budi", gameId: "12345", pass: "12345", wa: "089500001111", role: "Bandit" },  
+        { id: 2, name: "Andi", gameId: "67890", pass: "67890", wa: "089500002222", role: "Perekrut" }  
+    ];  
+  
+    let currentUser = null;  
+  
+    function showSection(sectionId) {  
+        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));  
+        document.getElementById(sectionId).classList.add('active');  
+        renderData();  
+    }  
+  
+    function renderData() {  
+        const memberList = document.getElementById('memberList');  
+        const adminMemberList = document.getElementById('adminMemberList');  
+  
+        memberList.innerHTML = '';  
+        adminMemberList.innerHTML = '';  
+  
+        members.forEach(m => {  
+            // Tampilan Beranda  
+            memberList.innerHTML += `  
+                <tr>  
+                    <td>${m.name}</td>  
+                    <td>${m.gameId}</td>  
+                    <td><b>${m.role}</b></td>  
+                </tr>  
+            `;  
+  
+            // Tampilan Dashboard Admin  
+            adminMemberList.innerHTML += `  
+                <tr>  
+                    <td>${m.name}</td>  
+                    <td>${m.gameId}</td>  
+                    <td>${m.wa}</td>  
+                    <td><b>${m.role}</b></td>  
+                    <td>  
+                        <select onchange="changeRole(${m.id}, this.value)">  
+                            <option value="Bandit" ${m.role === 'Bandit' ? 'selected' : ''}>Bandit</option>  
+                            <option value="Perekrut" ${m.role === 'Perekrut' ? 'selected' : ''}>Perekrut</option>  
+                        </select>  
+                    </td>  
+                </tr>  
+            `;  
+        });  
+    }  
+  
+    // Fungsi Registrasi Member Baru  
+    function handleRegister(e) {  
+        e.preventDefault();  
+        const name = document.getElementById('regName').value;  
+        const gameId = document.getElementById('regGameId').value;  
+        const password = document.getElementById('regPassword').value;  
+        const wa = document.getElementById('regWa').value;  
+  
+        // Cek apakah ID Game sudah terdaftar  
+        const exist = members.find(m => m.gameId === gameId);  
+        if (exist) {  
+            alert("ID Game ini sudah terdaftar! Gunakan ID Game lain.");  
+            return;  
+        }  
+  
+        // Tambah member baru ke database sementara  
+        members.push({  
+            id: Date.now(),  
+            name: name,  
+            gameId: gameId,  
+            pass: password,  
+            wa: wa,  
+            role: "Bandit" // Default role awal  
+        });  
+  
+        // Kirim konfirmasi pendaftaran ke WA Admin  
+        const adminWa = "6289501019250";  
+        const message = `Halo Admin Geng ASLI DUA KELINCI,%0A` +  
+                        `Saya mendaftar sebagai member baru:%0A` +  
+                        `- Nama: ${encodeURIComponent(name)}%0A` +  
+                        `- ID Game: ${encodeURIComponent(gameId)}%0A` +  
+                        `- Nomor WA: ${encodeURIComponent(wa)}`;  
+  
+        window.open(`https://wa.me/${adminWa}?text=${message}`, '_blank');  
+  
+        alert("Pendaftaran berhasil! Akun kamu sudah terdaftar. Kamu bisa login menggunakan ID Game & Password yang dibuat.");  
+          
+        // Reset Form & pindah ke menu login  
+        e.target.reset();  
+        showSection('login');  
+    }  
+  
+    // Fungsi Login (Admin & Member)  
+    function handleLogin(e) {  
+        e.preventDefault();  
+        const user = document.getElementById('loginUser').value;  
+        const pass = document.getElementById('loginPass').value;  
+  
+        // Check Login Admin  
+        if (user === "omsuprireal666" && pass === "Gyan120325.") {  
+            currentUser = { role: "admin" };  
+            document.getElementById('adminNav').style.display = "inline-block";  
+            document.getElementById('logoutBtn').style.display = "inline-block";  
+            alert("Login Berhasil sebagai Admin!");  
+            showSection('admin');  
+            return;  
+        }  
+  
+        // Check Login Member berdasarkan ID Game & Password yang didaftarkan  
+        const memberFound = members.find(m => m.gameId === user && m.pass === pass);  
+        if (memberFound) {  
+            currentUser = memberFound;  
+            document.getElementById('logoutBtn').style.display = "inline-block";  
+            document.getElementById('adminNav').style.display = "none";  
+            alert(`Login Berhasil! Selamat datang, ${memberFound.name} (${memberFound.role})`);  
+            showSection('home');  
+            return;  
+        }  
+  
+        alert("ID atau Password salah! Pastikan kamu sudah mendaftar terlebih dahulu.");  
+    }  
+  
+    function logout() {  
+        currentUser = null;  
+        document.getElementById('adminNav').style.display = "none";  
+        document.getElementById('logoutBtn').style.display = "none";  
+        alert("Berhasil Logout.");  
+        showSection('home');  
+    }  
+  
+    function changeRole(memberId, newRole) {  
+        const member = members.find(m => m.id === memberId);  
+        if (member) {  
+            member.role = newRole;  
+            alert(`Role ${member.name} berhasil diubah menjadi ${newRole}`);  
+            renderData();  
+        }  
+    }  
+  
+    renderData();  
+</script>  </body>  
+</html>  
